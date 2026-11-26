@@ -3,6 +3,9 @@ import random
 def startGame():
     print("Combien de joueurs vont jouer ? (1 - 4)")
     nb_joueurs = int(input())
+    if(nb_joueurs < 1 or nb_joueurs > 4):
+        print("Le nombre de joueurs doit être compris entre 1 et 4.")
+        return startGame()
     return nb_joueurs
 
 def prepareGame(nb_joueurs):
