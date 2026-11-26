@@ -1,4 +1,4 @@
-import pioche
+import Execution.pioche as pioche
 import random
 def startGame():
     print("Combien de joueurs vont jouer ? (1 - 4)")
