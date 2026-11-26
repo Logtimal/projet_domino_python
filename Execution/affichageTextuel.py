@@ -1,3 +1,7 @@
+# TEMPORAIRE A MODIFIER SELON VOTRE BON VOULOIR
+
+
+
 # Largeur maximale du plateau, en nombre de caractères
 LARGEUR_MAX = 60
 # Largeur minimale acceptée : la place de deux dominos couchés

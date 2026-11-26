@@ -1,21 +1,24 @@
 import pygame
+import sys
+from menu.menu import start_menu
 
-pygame.init()
-screen = pygame.display.set_mode((1280, 720))
-clock = pygame.time.Clock()
-running = True
+WHITE = (255,255,255)
 
+def game():
+    screen = pygame.display.get_surface()
+    font = pygame.font.SysFont("Corbel", 40)
 
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
 
-    screen.fill("white")
+        screen.fill((40, 40, 40))
 
-    pygame.display.flip()
+        text = font.render("Game Started!", True, WHITE)
+        screen.blit(text, (250, 350))
 
-    clock.tick(60)
+        pygame.display.update()
 
-pygame.quit()
-
+start_menu()
