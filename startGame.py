@@ -1,5 +1,4 @@
 import pioche
-import random
 import Joueur
 # Fonction qui retourne le nombre de joueurs du jeu
 def startGame():
@@ -17,10 +16,8 @@ def prepareGame(nb_joueurs):
     for i in range(nb_joueurs):
         joueurs.append(Joueur.Joueur(i + 1, []))
         for j in range(7):
-            nub = random.randint(0, len(piocheGlob) - 1)
-            piece = piocheGlob[nub]
+            piece = pioche.drawDomino(piocheGlob)
             joueurs[i].add_main(piece)
-            piocheGlob.remove(piece)
     return joueurs, piocheGlob
         
 
