@@ -7,18 +7,34 @@ def picher(pioche, joueur):
     else:
         print("La pioche est vide. Vous ne pouvez pas piocher.")
 
-def add_domino_to_game(jeu, domino_choisi, joueur, first):
+def add_domino_to_game(jeu, domino_choisi, joueur, first, need_invert=False):
+    if need_invert:
+        domino_choisi.inverser()
     if first:
         jeu.insert(0, domino_choisi)
     else:
         jeu.append(domino_choisi)
     joueur.remove_main(domino_choisi)
 
+def verify_right(domino_choisi, jeu):
+    if(domino_choisi.value2 == jeu[0].value1):
+        return True, False
+    elif(domino_choisi.value1 == jeu[0].value1):
+        return True, True
+    return False, False
+
+def verify_left(domino_choisi, jeu):
+    if(domino_choisi.value1 == jeu[-1].value2):
+        return True, False
+    elif(domino_choisi.value2 == jeu[-1].value2):
+        return True, True
+    return False, False
+
 def arround_player(player, pioche, jeu):
     print("Voici le jeu actuel: ")
     # affichageTextuel.afficherPlateau(jeu)
-    print("  ".join(f"{domino.value1} | {domino.value2}" for domino in jeu))
-    print(player.str_main())
+    print("  ".join(str(domino) for domino in jeu))    
+    print(player.afficher())
     print("Choisissez un domino à jouer (entrez l'index affiché dessous) ou -1 pour piocher :")
     while True:
         try:
@@ -29,6 +45,7 @@ def arround_player(player, pioche, jeu):
 
         if index == -1:
             picher(pioche, player)
+            arround_player(player, pioche, jeu)
             return
         if 0 <= index < len(player.get_main()):
             break
@@ -41,16 +58,22 @@ def arround_player(player, pioche, jeu):
     if(len(jeu) == 0):
         add_domino_to_game(jeu, domino_choisi, player, first=True)
     else:
-        if domino_choisi.value2 == jeu[0].value1:
-            add_domino_to_game(jeu, domino_choisi, player, first=True)
-        elif domino_choisi.value1 == jeu[0].value1:
-            domino_choisi.inverser()
-            add_domino_to_game(jeu, domino_choisi, player, first=True)
-        elif domino_choisi.value1 == jeu[-1].value2:
-            add_domino_to_game(jeu, domino_choisi, player, first=False)
-        elif domino_choisi.value2 == jeu[-1].value2:
-            domino_choisi.inverser()
-            add_domino_to_game(jeu, domino_choisi, player, first=False)
+        if verify_right(domino_choisi, jeu)[0] and verify_left(domino_choisi, jeu)[0]:
+            print("Le domino choisi peut être joué à gauche ou à droite. Où voulez-vous le jouer ? (gauche/droite)")
+            while True:
+                choix = input().lower()
+                if choix == "gauche":
+                    add_domino_to_game(jeu, domino_choisi, player, first=True)
+                    break
+                elif choix == "droite":
+                    add_domino_to_game(jeu, domino_choisi, player, first=False)
+                    break
+                else:
+                    print("Veuillez entrer 'gauche' ou 'droite'.")
+        elif verify_right(domino_choisi, jeu)[0]:
+            add_domino_to_game(jeu, domino_choisi, player, first=True, need_invert=verify_right(domino_choisi, jeu)[1])
+        elif verify_left(domino_choisi, jeu)[0]:
+            add_domino_to_game(jeu, domino_choisi, player, first=False, need_invert=verify_left(domino_choisi, jeu)[1])
         else:
             print("Le domino choisi ne peut pas être joué. Veuillez réessayer.")
             arround_player(player, pioche, jeu)
