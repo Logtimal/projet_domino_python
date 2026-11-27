@@ -2,7 +2,7 @@ import Execution.affichageTextuel as affichageTextuel
 
 
 class Joueur:
-    def __init__(self, number, ordre, pieceForte, pieceFaible, main):
+    def __init__(self, number, ordre, pieceForte, pieceFaible, main, score=0):
         self.number = number
         self.ordre = ordre
         self.pieceForte = pieceForte

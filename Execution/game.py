@@ -1,5 +1,6 @@
 import Execution.affichageTextuel as affichageTextuel
 from Execution.pioche import drawDomino
+import Execution.endGame as endGame
 
 def can_play(joueur, jeu, pioche):
     if len(jeu) == 0:
@@ -48,11 +49,12 @@ def arround_player(player, pioche, jeu):
             continue
 
         if index == -1:
-            drawDomino(pioche)
-            if len(pioche) == 0:
+            domino = drawDomino(pioche)
+            if domino is None:
                 print("La pioche est vide. Vous ne pouvez pas piocher.")
-            else:
-                arround_player(player, pioche, jeu)
+                return
+            player.add_main(domino)
+            arround_player(player, pioche, jeu)
             return
         if 0 <= index < len(player.get_main()):
             break
@@ -93,15 +95,21 @@ def play_game(players, pioche):
 
     while not win:
         for joueur in players:
-            if(can_play(joueur, jeu)):
+            if(can_play(joueur, jeu, pioche)):
                 print("C'est au tour du joueur " + str(joueur.get_number()) + " de jouer.")
                 # Logique de jeu pour le joueur actuel
                 arround_player(joueur, pioche, jeu)
             else:
-                print("Le joueur " + str(joueur.get_number()) + "ne peut plus jouer.")
+                print(f"Le joueur {joueur.get_number()} ne peut plus jouer.")
+                autre_joueur = next(j for j in players if j is not joueur)
+                winner = autre_joueur
                 win = True
                 break
             if len(joueur.get_main()) == 0:
                 print("Le joueur " + str(joueur.get_number()) + " a gagné !")
                 win = True
+                winner = joueur
                 break
+
+        if win:
+            endGame.endGame(players, winner)
