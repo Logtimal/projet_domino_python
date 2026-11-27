@@ -1,11 +1,16 @@
 import Execution.affichageTextuel as affichageTextuel
-def picher(pioche, joueur):
+from Execution.pioche import drawDomino
+
+def can_play(joueur, jeu, pioche):
+    if len(jeu) == 0:
+        return True
+    for domino in joueur.get_main():
+        if (domino.value1 == jeu[0].value1 or domino.value2 == jeu[0].value1 or
+            domino.value1 == jeu[-1].value2 or domino.value2 == jeu[-1].value2):
+            return True
     if len(pioche) > 0:
-        domino_pioché = pioche.pop()
-        joueur.add_main(domino_pioché)
-        print(f"Vous avez pioché le domino: {domino_pioché.value1} | {domino_pioché.value2}")
-    else:
-        print("La pioche est vide. Vous ne pouvez pas piocher.")
+        return True
+    return False
 
 def add_domino_to_game(jeu, domino_choisi, joueur, first, need_invert=False):
     if need_invert:
@@ -32,7 +37,6 @@ def verify_left(domino_choisi, jeu):
 
 def arround_player(player, pioche, jeu):
     print("Voici le jeu actuel: ")
-    # affichageTextuel.afficherPlateau(jeu)
     print("  ".join(str(domino) for domino in jeu))    
     print(player.afficher())
     print("Choisissez un domino à jouer (entrez l'index affiché dessous) ou -1 pour piocher :")
@@ -44,8 +48,11 @@ def arround_player(player, pioche, jeu):
             continue
 
         if index == -1:
-            picher(pioche, player)
-            arround_player(player, pioche, jeu)
+            drawDomino(pioche)
+            if len(pioche) == 0:
+                print("La pioche est vide. Vous ne pouvez pas piocher.")
+            else:
+                arround_player(player, pioche, jeu)
             return
         if 0 <= index < len(player.get_main()):
             break
@@ -58,22 +65,24 @@ def arround_player(player, pioche, jeu):
     if(len(jeu) == 0):
         add_domino_to_game(jeu, domino_choisi, player, first=True)
     else:
-        if verify_right(domino_choisi, jeu)[0] and verify_left(domino_choisi, jeu)[0]:
+        right_valid, right_invert = verify_right(domino_choisi, jeu)
+        left_valid, left_invert = verify_left(domino_choisi, jeu)
+        if right_valid and left_valid:
             print("Le domino choisi peut être joué à gauche ou à droite. Où voulez-vous le jouer ? (gauche/droite)")
             while True:
                 choix = input().lower()
                 if choix == "gauche":
-                    add_domino_to_game(jeu, domino_choisi, player, first=True)
+                    add_domino_to_game(jeu, domino_choisi, player, True, right_invert)
                     break
                 elif choix == "droite":
-                    add_domino_to_game(jeu, domino_choisi, player, first=False)
+                    add_domino_to_game(jeu, domino_choisi, player, False, left_invert)
                     break
                 else:
                     print("Veuillez entrer 'gauche' ou 'droite'.")
-        elif verify_right(domino_choisi, jeu)[0]:
-            add_domino_to_game(jeu, domino_choisi, player, first=True, need_invert=verify_right(domino_choisi, jeu)[1])
-        elif verify_left(domino_choisi, jeu)[0]:
-            add_domino_to_game(jeu, domino_choisi, player, first=False, need_invert=verify_left(domino_choisi, jeu)[1])
+        elif right_valid:
+            add_domino_to_game(jeu, domino_choisi, player, True, right_invert)
+        elif left_valid:
+            add_domino_to_game(jeu, domino_choisi, player, False, left_invert)
         else:
             print("Le domino choisi ne peut pas être joué. Veuillez réessayer.")
             arround_player(player, pioche, jeu)
@@ -84,9 +93,14 @@ def play_game(players, pioche):
 
     while not win:
         for joueur in players:
-            print("C'est au tour du joueur " + str(joueur.get_number()) + " de jouer.")
-            # Logique de jeu pour le joueur actuel
-            arround_player(joueur, pioche, jeu)
+            if(can_play(joueur, jeu, pioche)):
+                print("C'est au tour du joueur " + str(joueur.get_number()) + " de jouer.")
+                # Logique de jeu pour le joueur actuel
+                arround_player(joueur, pioche, jeu)
+            else:
+                print("Le joueur " + str(joueur.get_number()) + "ne peut plus jouer.")
+                win = True
+                break
             if len(joueur.get_main()) == 0:
                 print("Le joueur " + str(joueur.get_number()) + " a gagné !")
                 win = True

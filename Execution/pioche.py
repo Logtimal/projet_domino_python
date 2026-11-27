@@ -18,4 +18,5 @@ def drawDomino(pioche):
         index = random.randint(0, len(pioche) - 1)
         domino = pioche[index]
         pioche.remove(domino)
+        print(f"Vous avez pioché le domino: {domino.value1} | {domino.value2}")
         return domino
