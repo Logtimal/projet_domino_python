@@ -42,7 +42,7 @@ class Joueur:
     def set_pieceFaible(self, piece):
         self.pieceFaible = piece
 
-        
+
     def str_main(self):
         if not self.main:
             return f"Main du joueur {self.number}:\n(main vide)"
@@ -64,6 +64,9 @@ class Joueur:
         return f"Main du joueur {self.number}:\n{ligne_dominos}\n{ligne_indices}"
 
     def add_main(self, piece):
+        if len(self.main)==0:
+            self.set_pieceForte(piece)
+            self.set_pieceFaible(piece)
         self.main.append(piece)
 
     def remove_main(self, piece):
