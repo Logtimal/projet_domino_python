@@ -6,9 +6,14 @@ class Joueur:
         self.number = number
         self.main = main
 
-    def __str__(self):
-        lignes = affichageTextuel.construireMain(self.main)
-        return "\n".join([f"Joueur {self.number} avec la main :"] + lignes)
+    # Méthode qui dessine la main du joueur dans le terminal
+    def afficher(self):
+        print(f"Joueur {self.number} avec la main :")
+        affichageTextuel.afficherMain(self.main)
+
+    # Forme courte utilisée par print(joueur) et par l'affichage d'une liste
+    def __repr__(self):
+        return f"Joueur {self.number} avec la main: {self.main}"
 
     def get_number(self):
         return self.number

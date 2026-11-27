@@ -4,4 +4,4 @@ joueurs, pioche = startGame.prepareGame(nb_joueur)
 
 # Affichage de la main de chaque joueur
 for joueur in joueurs:
-    print(joueur)
+    joueur.afficher()

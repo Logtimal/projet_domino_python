@@ -30,12 +30,13 @@ class Domino:
             "└───┴───┘"
         ]
 
-    # Méthode pour représenter le domino sous forme de chaîne de caractères
+    # Méthode qui dessine le domino dans le terminal, un print par ligne
     # Un double est affiché debout, les autres dominos sont couchés
-    def __str__(self):
-        return "\n".join(self.dessin(vertical=self.estDouble()))
+    def afficher(self):
+        for ligne in self.dessin(vertical=self.estDouble()):
+            print(ligne)
 
-    # Forme courte utilisée par Python quand on affiche une liste de dominos
+    # Forme courte utilisée par print(domino) et par l'affichage d'une liste
     def __repr__(self):
         return f"[{self.value1}|{self.value2}]"
 
