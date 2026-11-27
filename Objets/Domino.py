@@ -47,3 +47,6 @@ class Domino:
     # Méthode pour comparer deux dominos en utilisant l'opérateur "<"
     def __lt__(self, other):
         return self.value1 + self.value2 < other.value1 + other.value2
+
+    def inverser(self):
+            self.value1, self.value2 = self.value2, self.value1
