@@ -2,8 +2,11 @@ import Execution.affichageTextuel as affichageTextuel
 
 
 class Joueur:
-    def __init__(self, number, main):
+    def __init__(self, number, ordre, pieceForte, pieceFaible, main):
         self.number = number
+        self.ordre = ordre
+        self.pieceForte = pieceForte
+        self.pieceFaible = pieceFaible
         self.main = main
 
     # Méthode qui dessine la main du joueur dans le terminal
@@ -18,9 +21,28 @@ class Joueur:
     def get_number(self):
         return self.number
 
+    def set_ordre(self, num):
+        self.ordre = num
+
+    def get_ordre(self):
+        return self.ordre
+
     def get_main(self):
         return self.main
 
+    def get_pieceForte(self):
+        return self.pieceForte
+
+    def set_pieceForte(self, piece):
+        self.pieceForte = piece
+
+    def get_pieceFaible(self):
+        return self.pieceFaible
+
+    def set_pieceFaible(self, piece):
+        self.pieceFaible = piece
+
+        
     def str_main(self):
         if not self.main:
             return f"Main du joueur {self.number}:\n(main vide)"

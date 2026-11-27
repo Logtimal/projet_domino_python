@@ -22,6 +22,28 @@ def prepareGame(nb_joueurs):
         for j in range(7):
             piece = pioche.drawDomino(piocheGlob)
             joueurs[i].add_main(piece)
+        if (piece.__gt__(piece.pieceForte) or j==0):
+            joueurs[i].set_pieceForte(piece)
+        if (piece.__lt__(piece.pieceFaible) or j==0):
+            joueurs[i].set_pieceFaible(piece)
+
+    if (joueurs[0].pieceForte.__lt__(joueurs[1].pieceForte)) :
+        joueurs[1].set_ordre(1)
+        joueurs[0].set_ordre(2)
+
+    elif (joueurs[0].pieceForte.__gt__(joueurs[1].pieceForte)) :
+        joueurs[0].set_ordre(1)
+        joueurs[1].set_ordre(2)
+
+    else :
+        if (joueurs[0].pieceFaible.__lt__(joueurs[1].pieceFaible)) :
+            joueurs[0].set_ordre(1)
+            joueurs[1].set_ordre(2)
+
+        elif (joueurs[0].pieceFaible.__gt__(joueurs[1].pieceFaible)) :
+            joueurs[1].set_ordre(1)
+            joueurs[0].set_ordre(2)
+        
     return joueurs, piocheGlob
         
 
