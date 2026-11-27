@@ -35,6 +35,10 @@ class Domino:
     def __str__(self):
         return "\n".join(self.dessin(vertical=self.estDouble()))
 
+    # Forme courte utilisée par Python quand on affiche une liste de dominos
+    def __repr__(self):
+        return f"[{self.value1}|{self.value2}]"
+
     # Méthode pour comparer deux dominos en utilisant l'opérateur ">"
     def __gt__(self, other):
         return self.value1 + self.value2 > other.value1 + other.value2

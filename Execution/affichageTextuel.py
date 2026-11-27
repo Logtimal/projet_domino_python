@@ -47,6 +47,12 @@ def construireMain(main, largeur_max=None):
     return lignes
 
 
+# Fonction qui affiche une liste de dominos (une main, la pioche...)
+def afficherMain(main, largeur_max=None):
+    for ligne in construireMain(main, largeur_max):
+        print(ligne)
+
+
 # Fonction qui place chaque domino du plateau
 # Retourne une liste de tuples (x, y, dessin), (x, y) étant le coin haut gauche
 # Le plateau serpente de bas en haut : la première ligne va vers la droite,
