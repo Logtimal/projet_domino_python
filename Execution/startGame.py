@@ -28,21 +28,21 @@ def prepareGame(nb_joueurs):
             joueurs[i].set_pieceFaible(piece)
 
     if (joueurs[0].pieceForte.__lt__(joueurs[1].pieceForte)) :
-        joueurs[1].set_number(1)
-        joueurs[0].set_number(2)
+        joueurs[1].set_ordre(1)
+        joueurs[0].set_ordre(2)
 
     elif (joueurs[0].pieceForte.__gt__(joueurs[1].pieceForte)) :
-        joueurs[0].set_number(1)
-        joueurs[1].set_number(2)
+        joueurs[0].set_ordre(1)
+        joueurs[1].set_ordre(2)
 
     else :
         if (joueurs[0].pieceFaible.__lt__(joueurs[1].pieceFaible)) :
-            joueurs[0].set_number(1)
-            joueurs[1].set_number(2)
+            joueurs[0].set_ordre(1)
+            joueurs[1].set_ordre(2)
 
         elif (joueurs[0].pieceFaible.__gt__(joueurs[1].pieceFaible)) :
-            joueurs[1].set_number(1)
-            joueurs[0].set_number(2)
+            joueurs[1].set_ordre(1)
+            joueurs[0].set_ordre(2)
         
     return joueurs, piocheGlob
         

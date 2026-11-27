@@ -2,8 +2,9 @@ import Execution.affichageTextuel as affichageTextuel
 
 
 class Joueur:
-    def __init__(self, number, pieceForte, pieceFaible, main):
+    def __init__(self, number, ordre, pieceForte, pieceFaible, main):
         self.number = number
+        self.ordre = ordre
         self.pieceForte = pieceForte
         self.pieceFaible = pieceFaible
         self.main = main
@@ -20,8 +21,11 @@ class Joueur:
     def get_number(self):
         return self.number
 
-    def set_number(self, num):
-        self.number = num
+    def set_ordre(self, num):
+        self.ordre = num
+
+    def get_ordre(self):
+        return self.ordre
 
     def get_main(self):
         return self.main
