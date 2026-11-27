@@ -93,7 +93,7 @@ def play_game(players, pioche):
 
     while not win:
         for joueur in players:
-            if(can_play(joueur, jeu, pioche)):
+            if(can_play(joueur, jeu)):
                 print("C'est au tour du joueur " + str(joueur.get_number()) + " de jouer.")
                 # Logique de jeu pour le joueur actuel
                 arround_player(joueur, pioche, jeu)
