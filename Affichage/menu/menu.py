@@ -1,5 +1,6 @@
 import pygame
 import sys
+from jeuPrincipal.ecranPrincipal import ecran_principal
 
 WHITE = (255,255,255)
 LIGHT = (170,170,170)
@@ -52,7 +53,14 @@ def start_menu():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
 
-                # Seul "Quitter" fonctionne, les autres boutons ne font rien pour l'instant
+                # Les deux boutons "Nouvelle partie" ouvrent l'écran de jeu
+                if (boutons["Nouvelle partie avec talon"].collidepoint(event.pos)
+                        or boutons["Nouvelle partie sans talon (sans pioche)"].collidepoint(event.pos)):
+                    ecran_principal()
+                    # De retour au menu, on remet la fenêtre à la taille du menu
+                    screen = pygame.display.set_mode((720, 720))
+
+                # "Enregistrer" et "Importer" ne font rien pour l'instant
                 if boutons["Quitter"].collidepoint(event.pos):
                     pygame.quit()
                     sys.exit()
