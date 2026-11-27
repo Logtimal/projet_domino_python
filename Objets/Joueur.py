@@ -42,6 +42,27 @@ class Joueur:
     def set_pieceFaible(self, piece):
         self.pieceFaible = piece
 
+        
+    def str_main(self):
+        if not self.main:
+            return f"Main du joueur {self.number}:\n(main vide)"
+
+        dominos = [str(domino) for domino in self.main]
+        indices = [str(index) for index in range(len(dominos))]
+        largeurs = [
+            max(len(domino), len(index))
+            for domino, index in zip(dominos, indices)
+        ]
+        ligne_dominos = " ".join(
+            domino.center(largeur)
+            for domino, largeur in zip(dominos, largeurs)
+        )
+        ligne_indices = " ".join(
+            index.center(largeur)
+            for index, largeur in zip(indices, largeurs)
+        )
+        return f"Main du joueur {self.number}:\n{ligne_dominos}\n{ligne_indices}"
+
     def add_main(self, piece):
         self.main.append(piece)
 
