@@ -1,10 +1,14 @@
+import Execution.affichageTextuel as affichageTextuel
+
+
 class Joueur:
     def __init__(self, number, main):
         self.number = number
         self.main = main
 
     def __str__(self):
-        return f"Joueur {self.number} avec la main: {[str(domino) for domino in self.main]}"
+        lignes = affichageTextuel.construireMain(self.main)
+        return "\n".join([f"Joueur {self.number} avec la main :"] + lignes)
 
     def get_number(self):
         return self.number

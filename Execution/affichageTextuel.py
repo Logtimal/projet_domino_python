@@ -1,11 +1,50 @@
 # TEMPORAIRE A MODIFIER SELON VOTRE BON VOULOIR
 
+import shutil
 
-
-# Largeur maximale du plateau, en nombre de caractères
-LARGEUR_MAX = 60
 # Largeur minimale acceptée : la place de deux dominos couchés
 LARGEUR_MIN = 18
+
+
+# Fonction qui retourne la largeur utilisable du terminal, en nombre de caractères
+def largeurTerminal():
+    colonnes = shutil.get_terminal_size().columns
+    # On garde une colonne libre pour éviter le retour à la ligne automatique
+    return max(colonnes - 1, LARGEUR_MIN)
+
+
+# Fonction qui retourne les lignes de texte représentant une main
+# Les dominos sont placés côte à côte, avec un saut de ligne quand la place manque
+def construireMain(main, largeur_max=None):
+    if largeur_max is None:
+        largeur_max = largeurTerminal()
+
+    # Répartition des dessins en rangées qui tiennent dans la largeur
+    rangees = []
+    largeur_rangee = 0
+    for domino in main:
+        dessin = domino.dessin(vertical=domino.estDouble())
+        largeur = len(dessin[0])
+        if not rangees or largeur_rangee + 1 + largeur > largeur_max:
+            rangees.append([dessin])
+            largeur_rangee = largeur
+        else:
+            rangees[-1].append(dessin)
+            largeur_rangee += 1 + largeur
+
+    lignes = []
+    for rangee in rangees:
+        hauteur = max(len(dessin) for dessin in rangee)
+        colonnes = []
+        for dessin in rangee:
+            # Les dessins moins hauts sont centrés avec des lignes vides
+            vide = " " * len(dessin[0])
+            marge = (hauteur - len(dessin)) // 2
+            colonnes.append([vide] * marge + dessin + [vide] * (hauteur - len(dessin) - marge))
+        for morceaux in zip(*colonnes):
+            lignes.append(" ".join(morceaux).rstrip())
+
+    return lignes
 
 
 # Fonction qui place chaque domino du plateau
@@ -59,7 +98,9 @@ def placerDominos(plateau, largeur_max):
 
 
 # Fonction qui retourne les lignes de texte représentant le plateau
-def construirePlateau(plateau, largeur_max=LARGEUR_MAX):
+def construirePlateau(plateau, largeur_max=None):
+    if largeur_max is None:
+        largeur_max = largeurTerminal()
     if largeur_max < LARGEUR_MIN:
         raise ValueError(f"La largeur maximale doit être d'au moins {LARGEUR_MIN}.")
     if len(plateau) == 0:
@@ -80,7 +121,7 @@ def construirePlateau(plateau, largeur_max=LARGEUR_MAX):
 
 
 # Fonction qui affiche le plateau
-def afficherPlateau(plateau, largeur_max=LARGEUR_MAX):
+def afficherPlateau(plateau, largeur_max=None):
     if len(plateau) == 0:
         print("Le plateau est vide.")
         return
